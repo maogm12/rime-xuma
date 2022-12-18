@@ -84,6 +84,7 @@ engine:
     - abc_segmentor
     - affix_segmentor@long
     - affix_segmentor@luna_pinyin_lookup
+    - affix_segmentor@pinyin_simp_lookup
     - affix_segmentor@stroke_lookup
     - affix_segmentor@reverse_lookup
     - punct_segmentor
@@ -94,6 +95,7 @@ engine:
     - table_translator
     - script_translator@long
     - script_translator@luna_pinyin_lookup
+    - script_translator@pinyin_simp_lookup
     - table_translator@stroke_lookup
     - table_translator@make_phrase
     - lua_translator@os_env
@@ -107,6 +109,7 @@ engine:
     - simplifier@simplify
     - simplifier@traditionalize
     - reverse_lookup_filter@luna_pinyin_reverse_lookup
+    - reverse_lookup_filter@pinyin_simp_reverse_lookup
     - reverse_lookup_filter@stroke_reverse_lookup
     - lua_filter@xuma_spelling@xmsp
     - lua_filter@xuma_spelling@xmsp_for_rvlk
@@ -228,6 +231,7 @@ reverse_lookup:
     # - xform/([nljqxy])v/$1ü/
   extra_tags:
     - luna_pinyin_lookup
+    - pinyin_simp_lookup
     - stroke_lookup
 
 luna_pinyin_lookup:
@@ -235,6 +239,14 @@ luna_pinyin_lookup:
   dictionary: luna_pinyin
   prefix: '`P'
   tips: 【朙月拼音反查】
+  closing_tips: 【反查关闭】
+  initial_quality: 0.2
+
+  pinyin_simp_lookup:
+  tag: pinyin_simp_lookup
+  dictionary: pinyin_simp
+  prefix: '`S'
+  tips: 【袖珍简化字拼音反查】
   closing_tips: 【反查关闭】
   initial_quality: 0.2
 
@@ -251,6 +263,10 @@ stroke_lookup:
 
 luna_pinyin_reverse_lookup:
   tags: [ luna_pinyin, luna_pinyin_lookup ]
+  dictionary: xuma
+
+pinyin_simp_reverse_lookup:
+  tags: [ pinyin_simp, pinyin_simp_lookup ]
   dictionary: xuma
 
 stroke_reverse_lookup:
@@ -286,6 +302,7 @@ recognizer:
     uppercase: "^(?![`;]).*[A-Z][-_+.'0-9A-Za-z]*$"
     reverse_lookup:     "^`([a-z]+'?)*$"
     luna_pinyin_lookup: "^`P([a-z]+'?)*$"
+    pinyin_simp_lookup: "^`S([a-z]+'?)*$"
     stroke_lookup:      "^`B([a-z]+'?)*$"
     make_phrase: "^([a-z]{1,4}`)([a-z]+[`;']?)*$"
     os_env: '^env/\w+'
